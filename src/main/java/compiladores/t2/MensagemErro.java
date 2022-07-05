@@ -13,7 +13,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 public class MensagemErro implements ANTLRErrorListener {
     PrintWriter p;
-    static boolean got_error = false;
+    static boolean got_error = false; // utilizado para evitar impressões após encontrar primeiro erro
     public MensagemErro(PrintWriter p){
         this.p = p;
     }
@@ -36,9 +36,10 @@ public class MensagemErro implements ANTLRErrorListener {
     public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4,
             RecognitionException arg5) {
         // TODO Auto-generated method stub
-        // System.out.println(arg1.getClass() + " a desgrama do tipo");
+        // Conversão do token stream para token unico
         Token t = (Token) arg1;
         String text = t.getText();
+        // o texto de EOF vem com <>, portanto aqui realiza uma conversão em tal caso
         if(text == "<EOF>")
             text = "EOF";
         String aType = AlgumaLexer.VOCABULARY.getDisplayName(t.getType()); // Converte o tipo desse token para string
